@@ -4,7 +4,7 @@ FROM node:20-alpine
 # Set the working directory
 WORKDIR /usr/src/app
 
-# Install Chromium
+# Install Chromium and dependencies
 ENV CHROME_BIN="/usr/bin/chromium-browser" \
     PUPPETEER_SKIP_CHROMIUM_DOWNLOAD="true" \
     NODE_ENV="production"
@@ -14,7 +14,16 @@ RUN set -x \
     && apk add --no-cache \
     udev \
     ttf-freefont \
-    chromium
+    chromium \
+    nss \
+    freetype \
+    harfbuzz \
+    libx11 \
+    libxcomposite \
+    libxdamage \
+    libxrandr \
+    libxtst \
+    libnss3
 
 # Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
