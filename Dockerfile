@@ -1,7 +1,7 @@
 # Use the official Node.js Alpine image as the base image
 FROM node:20-alpine
 
-# Install Chromium and its dependencies
+# Install necessary packages and Chromium
 RUN set -x \
     && apk update \
     && apk upgrade \
@@ -11,7 +11,6 @@ RUN set -x \
     chromium \
     nss \
     libnss3 \
-    libnss3-tools \
     libnspr4 \
     harfbuzz \
     alsa-lib \
@@ -30,9 +29,8 @@ RUN set -x \
     mesa-gl \
     libevent \
     dbus \
-    ttf-freefont \
     libgl \
-    --repository=http://dl-3.alpinelinux.org/alpine/edge/community
+    --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community
 
 # Set the working directory
 WORKDIR /var/lib/volumes/gcs/gcs-zenix_wa
