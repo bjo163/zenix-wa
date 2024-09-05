@@ -2,7 +2,7 @@ const fs = require('fs')
 const qrcode = require('qrcode-terminal')
 const { sessionFolderPath } = require('../config')
 const { sendErrorResponse } = require('../utils')
-
+const os = require('os') // Import module os untuk mendapatkan informasi sistem
 /**
  * Responds to ping request with 'pong'
  *
@@ -51,5 +51,30 @@ const localCallbackExample = async (req, res) => {
     sendErrorResponse(res, 500, error.message)
   }
 }
+const getStatus = async (req, res) => {
+  /*
+    #swagger.tags = ['Status']
+  */
+  try {
+    const loadAverage = os.loadavg(); // Load average (last 1, 5, and 15 minutes)
+    const uptime = os.uptime(); // System uptime in seconds
+    const totalMemory = os.totalmem(); // Total system memory
+    const freeMemory = os.freemem(); // Free system memory
+    const cpuInfo = os.cpus(); // Information about each CPU/core
 
-module.exports = { ping, localCallbackExample }
+    res.json({
+      success: true,
+      loadAverage,
+      uptime,
+      memory: {
+        total: totalMemory,
+        free: freeMemory,
+        used: totalMemory - freeMemory
+      },
+      cpuInfo
+    });
+  } catch (error) {
+    sendErrorResponse(res, 500, error.message);
+  }
+}
+module.exports = { ping,getStatus, localCallbackExample }
