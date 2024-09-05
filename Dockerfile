@@ -1,20 +1,46 @@
 # Use the official Node.js Alpine image as the base image
 FROM node:20-alpine
-RUN npm install -g npm@10.7.0
-# Set the working directory
-WORKDIR /var/lib/volumes/gcs/gcs-zenix_wa
 
-# Install Chromium
-ENV CHROME_BIN="/usr/bin/chromium-browser" \
-    PUPPETEER_SKIP_CHROMIUM_DOWNLOAD="true" \
-    NODE_ENV="production"
+# Install Chromium and its dependencies
 RUN set -x \
     && apk update \
     && apk upgrade \
     && apk add --no-cache \
     udev \
     ttf-freefont \
-    chromium
+    chromium \
+    nss \
+    libnss3 \
+    libnss3-tools \
+    libnspr4 \
+    harfbuzz \
+    alsa-lib \
+    cairo \
+    gdk-pixbuf \
+    pango \
+    gjs \
+    libx11 \
+    libxcomposite \
+    libxdamage \
+    libxrandr \
+    libxtst \
+    libxss \
+    libxxf86vm \
+    libgbm \
+    mesa-gl \
+    libevent \
+    dbus \
+    ttf-freefont \
+    libgl \
+    --repository=http://dl-3.alpinelinux.org/alpine/edge/community
+
+# Set the working directory
+WORKDIR /var/lib/volumes/gcs/gcs-zenix_wa
+
+# Set environment variables
+ENV CHROME_BIN="/usr/bin/chromium-browser" \
+    PUPPETEER_SKIP_CHROMIUM_DOWNLOAD="true" \
+    NODE_ENV="production"
 
 # Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
@@ -27,7 +53,9 @@ COPY . .
 
 # Expose the port the API will run on
 EXPOSE 8080
+
 # Install gsutil
 RUN apk update && apk add --no-cache gsutil
+
 # Start the API
 CMD ["npm", "start"]
