@@ -14,7 +14,6 @@ RUN set -x \
     libnspr4 \
     freetype \
     ca-certificates \
-    nodejs \
     harfbuzz \
     alsa-lib \
     cairo \
@@ -33,23 +32,24 @@ RUN set -x \
     libevent \
     dbus \
     libgl \
-    yarn \
     --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community
 
 # Set the working directory
-RUN mkdir /zenix/app/zenix_wa
-WORKDIR /zenix/app/zenix_wa
+WORKDIR /var/lib/volumes/gcs/gcs-zenix_wa
 
 # Set environment variables
 ENV CHROME_BIN="/usr/bin/chromium-browser" \
     PUPPETEER_SKIP_CHROMIUM_DOWNLOAD="true" \
     NODE_ENV="production"
-RUN yarn add puppeteer@13.5.0
+
 # Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
 
 # Install the dependencies
-RUN npm ci --only=production --ignore-scripts
+RUN npm ci --only=production
+
+# Install Puppeteer
+RUN npm install puppeteer@13.5.0
 
 # Copy the rest of the source code to the working directory
 COPY . .
