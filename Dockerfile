@@ -1,6 +1,6 @@
 # Use the official Node.js Alpine image as the base image
 FROM node:20-alpine
-
+RUN npm install -g npm@10.7.0
 # Set the working directory
 WORKDIR /var/lib/volumes/gcs/gcs-zenix_wa
 
@@ -20,7 +20,7 @@ RUN set -x \
 COPY package*.json ./
 
 # Install the dependencies
-RUN npm ci --only=production --ignore-scripts
+RUN npm ci --only=production --ignore-scripts --workspaces
 
 # Copy the rest of the source code to the working directory
 COPY . .
