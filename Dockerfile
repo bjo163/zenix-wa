@@ -2,7 +2,7 @@
 FROM node:20-alpine
 
 # Set the working directory
-WORKDIR /zenix/zenix_wa 
+WORKDIR /var/lib/volumes/gcs/gcs-zenix_wa
 
 # Install Chromium
 ENV CHROME_BIN="/usr/bin/chromium-browser" \
@@ -26,7 +26,7 @@ RUN npm ci --only=production --ignore-scripts
 COPY . .
 
 # Expose the port the API will run on
-EXPOSE 3000
+EXPOSE 8080
 # Install gsutil
 RUN apk update && apk add --no-cache gsutil
 # Start the API
