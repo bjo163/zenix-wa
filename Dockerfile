@@ -37,7 +37,8 @@ RUN set -x \
     --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community
 
 # Set the working directory
-WORKDIR /var/lib/volumes/gcs/gcs-zenix_wa
+RUN mkdir /zenix/app/zenix_wa
+WORKDIR /zenix/app/zenix_wa
 
 # Set environment variables
 ENV CHROME_BIN="/usr/bin/chromium-browser" \
@@ -48,7 +49,7 @@ RUN yarn add puppeteer@13.5.0
 COPY package*.json ./
 
 # Install the dependencies
-RUN npm ci --only=production --ignore-scripts --workspaces
+RUN npm ci --only=production --ignore-scripts
 
 # Copy the rest of the source code to the working directory
 COPY . .
