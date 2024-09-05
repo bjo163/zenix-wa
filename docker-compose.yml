@@ -23,4 +23,4 @@ services:
       # - WEB_VERSION_CACHE_TYPE=none # OPTIONAL, DETERMINES WHERE TO GET THE WHATSAPP WEB VERSION(local, remote or none), DEFAULT 'none'
       # - RECOVER_SESSIONS=TRUE # OPTIONAL, SHOULD WE RECOVER THE SESSION IN CASE OF PAGE FAILURES
     volumes:
-      - ./sessions:/zenix/zenix_wa/sessions # Mount the local ./sessions/ folder to the container's /usr/src/app/sessions folder
+      - ./sessions:/app/sessions # Mount the local ./sessions/ folder to the container's /usr/src/app/sessions folder
