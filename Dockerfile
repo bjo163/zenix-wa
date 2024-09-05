@@ -1,5 +1,5 @@
 # Use the official Node.js Alpine image as the base image
-FROM node:20-alpine
+FROM node:18-alpine
 
 # Set the working directory
 WORKDIR /app
@@ -24,6 +24,9 @@ RUN set -x \
     libxrandr \
     libxtst \
     libnss3 \
+    xorg-server \
+    openbox \
+    alsa-lib \
     adduser -h /app -D puppeteer
 
 # Copy package.json and package-lock.json to the working directory
